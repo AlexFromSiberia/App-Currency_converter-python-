@@ -1,0 +1,47 @@
+{% extends 'app/base.html' %}
+
+{% block content %}
+<h1 class="red">Hello!</h1>
+
+<form action="" method="POST" class="p-3">
+    {% csrf_token %}
+    <div class="form-row">
+        <div class="form-group col-md-4 mb-0">
+            <label for="amount"> Amount </label>
+            <input id="amount" type="number" class="form-control" required='True' placeholder="Enter amount" {% if from_amount %} {{ from_amount }} {% endif %} name="from_amount">
+        </div>
+
+        <div class="form-group col-md-4 mb-0">
+            <label for="from_curr"> From currency </label>
+            <select class="form-select" name="from_curr" id="from_curr" value="{{ from_curr }}">
+                {% for curr in currencies%}
+                    <option value="{{ curr }}" {% if from_curr == curr%} selected {% endif %}> {{curr}} </option>
+                {% endfor%}
+            </select>
+        </div>
+        <div class="form-group col-md-4 mb-0">
+            <label for="to_curr"> From currency </label>
+            <select class="form-select" name="to_curr" id="to_curr" value="{{ to_curr }}">
+                {% for curr in currencies%}
+                    <option value="{{ curr }}" {% if to_curr == curr%} selected {% endif %}> {{curr}} </option>
+                {% endfor%}
+            </select>
+        </div>
+
+        {% if converted_amount %}
+            <div class="card col-6 p-0 m-auto">
+                <div class="card-header text-center">
+                    <h5> Your {{from_amount}}, <b>{{from_curr}}</b> </h5>
+                    <h5> is equal to {{converted_amount}}, <b>{{to_curr}}</b></h5>
+                </div>
+            </div>
+
+        {% endif %}
+
+        <div class="sunmit-btn mt-3">
+            <button type="submit" class="btn btn-primary"> Calculate </button>
+        </div>
+    </div>
+</form>
+
+{% endblock content %}
